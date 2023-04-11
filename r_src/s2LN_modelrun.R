@@ -53,7 +53,8 @@ s2LN_fit <- sampling(NORM_comp,
                      data = s2LN_data,
                      chains = n.ch, 
                      iter = n.iter,
-                     warmup = n.warm, 
+                     warmup = n.warm,
+					 control = list(adapt_delta = 0.9),
                      refresh = 0)
 s2LN_d <- round(as.numeric(Sys.time() - m_s, units = "mins"), 2) 
 
@@ -78,10 +79,12 @@ if(mean(as.numeric(ifelse(s2LN_c_ip$Rhat<1.02, 1, 0)), na.rm = TRUE) != 1){
 		  s2LN_convergence <- c(s2LN_convergence, 0)
   next
 }
+if(div_check){
 if(s2LN_div > 0){
   message("Convergence was not achieved for model: ", MC, ". There were ", s2LN_div, " divergent transition(s).")
 		  s2LN_convergence <- c(s2LN_convergence, 0)
   next
+}
 }
 s2LN_convergence <- c(s2LN_convergence, 1)
 

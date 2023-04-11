@@ -144,6 +144,7 @@ pr_all$btess[[QaS]] <- bind_rows(pr$btess)
 
 # smoothing ratio
 pr_all$SR[[QaS]] <- bind_rows(pr$SR)
+pr_all$ALC[[QaS]] <- unlist(pr$ALC)
 pr_all$WOLSB[[QaS]] <- unlist(pr$WOLSB)
 pr_all$WCOR[[QaS]] <- unlist(pr$WCOR)
 pr_all$samp_var_sm[[QaS]] <- bind_rows(pr$samp_var_sm, .id = "JaS")

@@ -55,6 +55,7 @@ pr <-  list(m = list(),               # nu. of sampled areas
             loo = list(),             # LOOCV for models
             loo_prop_bad_k = list(),  # LOOCV diagnostic
             SR = list(),				# Smoothing Ratio (SR)
+			ALC = list(),			# Regression coefficient from WOLS of pd vs d
             WOLSB = list(),			# Regression coefficient from WOLS of pd vs d
             WCOR = list(),			# Weighted pearson correlation between pd and d
             samp_var_sm = list(),		# dataset comparing the reduction in sampling variance under TSLN

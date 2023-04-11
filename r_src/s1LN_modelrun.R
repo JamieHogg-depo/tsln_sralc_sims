@@ -35,7 +35,7 @@ Ni <- ss_list$sample_agg$sum_w
 # for stan
 s1LN_data <- list(n = nrow(ss_list$sample),
                   sigma_res = sigma_res,
-                  bool_e = 0,
+                  bool_e = bool_e,
                  q_u = ncol(x_u),
                  x_u = x_u, 
                  y = ss_list$sample$y,
@@ -90,10 +90,12 @@ if(mean(as.numeric(ifelse(s1LN_c_ip$Rhat<1.02, 1, 0)), na.rm = TRUE) != 1){
 		  s1LN_convergence <- c(s1LN_convergence, 0)
   next
 }
+if(div_check){
 if(s1LN_div > 0){
   message("Convergence was not achieved for model: ", MC, ". There were ", s1LN_div, " divergent transition(s).")
 		  s1LN_convergence <- c(s1LN_convergence, 0)
   next
+}
 }
 s1LN_convergence <- c(s1LN_convergence, 1)
 

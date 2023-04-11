@@ -15,7 +15,7 @@ library(ggtext)
 library(latex2exp)
 
 # Date and working directory
-cur_date <- "20230314"
+cur_date <- "20230411_0710"
 wd <- "C:/r_proj/tsln_sralc_sims/"
 
 # Load data

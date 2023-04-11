@@ -43,8 +43,8 @@ parameters {
 transformed parameters{
 	vector[n] gmma;
 	for(i in 1:n){
-		gmma[i] = intercept_u + x_u[i,] * beta_u + 
-		bool_e * Z_e[ps_area[i]] * sigma_e +
+		gmma[i] = intercept_u + // x_u[i,] * beta_u + 
+		//bool_e * Z_e[ps_area[i]] * sigma_e +
 		Z_res[i] * sigma_res;
 	}
 }
@@ -118,7 +118,7 @@ generated quantities{
 				// get top of smoothing ratio (SR)
 				top_SR_per_area[j] = fabs( bias_D[j] );
 			}
-			SR = sum( top_SR_per_area ) / bot_SR;
+			SR = 1 - sum( top_SR_per_area ) / bot_SR;
 			
 			// LogLikelihood
 			for(i in 1:n)

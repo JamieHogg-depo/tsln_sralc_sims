@@ -20,12 +20,14 @@ source(paste0(wd, "generateCENSUS.R"))
 source(paste0(wd, "takeSAMPLE.R"))
 
 ## GRAND PARAMETERS ##
-n.iter <- 2000
-n.warm <- 1000 
-n.ch <- 2
+n.iter <- 2500
+n.warm <- 1500 
+n.ch <- 3
+bool_e <- 1
+div_check <- FALSE
 
 ## ---- Define the sequence of residual errors ---- ##
-sim_grid <- c(0.01, 0.1, 0.25, 0.5, 0.75, 1, 1.5, 2, 2.5, 3, 3.5)
+sim_grid <- c(0.01, 0.1, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.5, 3, 3.5)
 sigma_res <- sim_grid[QaS]
 
 ## ---- Compile the stan models ---- ## 
@@ -53,20 +55,6 @@ message("Now starting rep ", JaS, " of ", no_reps)
 ## STEP 2: Take stratified sample ## 
 ss_list <- takeSAMPLE(GC, input_seed = JaS)
 pr$true_prop[[JaS]] <- ss_list$true_prop
-
-# rm(GC, ss_list)
-# GC <- generateCENSUS(seed = 47, 
-#                      alpha_survey = 2, #8, #x1 - categorical, 
-#                      alpha_nonsurvey = 2, #x2, 
-#                      gamma = 0.01)
-# ss_list <- takeSAMPLE(GC, input_seed = JaS)
-# 
-# fit <- glm(y ~ x1 + x2, family = binomial, ss_list$sample, 
-#            weights = (w/sum(w)) * nrow(ss_list$sample))
-# summary(fit)
-# exp(coef(fit))
-# with(ss_list$sample, getSR(y, predict(fit, type = "response"), w, area))
-# with(ss_list$sample, getWOLS(y, predict(fit, type = "response"), w, area))
 
 ## STEP 3: Fit the models ##
 source(paste0(wd, "s1LN_modelrun.R"))

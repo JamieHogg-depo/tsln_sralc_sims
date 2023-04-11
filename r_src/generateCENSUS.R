@@ -22,8 +22,8 @@ M <- 100                          			# Total number of areas
 m <- 60                  					# Number of areas to sample
 N_lower <- 500 #450               			# population size per area
 N_upper <- 3000 #1400
-TP_lower <- 0.1              				# TP: True Proportion
-TP_upper <- 0.4           					# TP: True Proportion
+TP_lower <- 0.05              				# TP: True Proportion
+TP_upper <- 0.3           					# TP: True Proportion
 SF <- 0.004                       			 # sampling fraction
 inform <- 1        			 # whether sample is informative 
 

@@ -21,6 +21,14 @@ pr$SR[[JaS]] <- s1LN_fit %>%
 					spread_draws(SR) %>% 
 					median_hdci()
 					
+# Add ALC
+	for_alc <- data.frame(y = apply(s1LN_its$mu_pd, 2, median),
+							x = ss_list$true_prop$HT_Direct,
+							w = 1/ss_list$true_prop$HT_VAR) %>%
+				filter(!is.na(w))
+	alc_fit <- lm(y ~ x, data = for_alc, weights = w)
+	pr$ALC[[JaS]] <- unname(coef(alc_fit)[2])
+					
 # Add WOLSB
 	wols_data <- s1LN_fit %>% 
 		spread_draws(theta_pd[ps_area]) %>% 
