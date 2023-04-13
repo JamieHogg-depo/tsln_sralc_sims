@@ -35,11 +35,14 @@ if(!file.exists(loc_plots))dir.create(loc_plots)
 getQuantilePlot <- function(outcome, dep, df){
   
   f <- as.formula(paste0(outcome, " ~ ", dep, " + I(", dep, "^2)"))
+  #f <- as.formula(paste0(outcome, " ~ ", dep))
   qfit <- rq(f, data=df, tau=c(0.05, 0.2, 0.5, 0.8, 0.95))
   newdata <- data.frame(sm = seq(0,1,0.001)) %>% setNames(c(dep))
   pr <- predict(qfit, newdata = newdata) %>% as.data.frame()
   nd <- cbind(sm = seq(0,1,0.001), pr) %>% 
     setNames(c("sm", "bottom", "lower", "median", "upper", "top"))
+  
+  getIndexMin <- function(x){which(x == min(x))}
   
   low_value1 <- nd[getIndexMin(nd$upper),1]
   low_value2 <- nd[getIndexMin(nd$median),1]
@@ -52,7 +55,7 @@ getQuantilePlot <- function(outcome, dep, df){
   
   if(outcome == "MRRMSE"){
   ggplot()+theme_bw()+
-    geom_point(data = in_df2, aes(y = met, x = sm), col = "grey")+
+    geom_point(data = in_df2, aes(y = met, x = sm), col = "grey", shape = 1)+
     geom_line(data = nd, aes(y = lower, x = sm), col = "tomato2")+
     geom_line(data = nd, aes(y = upper, x = sm), col = "tomato2")+
     geom_line(data = nd, aes(y = top, x = sm), col = "sienna1")+
@@ -65,7 +68,7 @@ getQuantilePlot <- function(outcome, dep, df){
     scale_x_continuous(breaks = seq(0, 1, by = 0.1))
   }else{
     ggplot()+theme_bw()+
-      geom_point(data = in_df2, aes(y = met, x = sm), col = "grey")+
+      geom_point(data = in_df2, aes(y = met, x = sm), col = "grey", shape = 1)+
       geom_line(data = nd, aes(y = lower, x = sm), col = "tomato2")+
       geom_line(data = nd, aes(y = upper, x = sm), col = "tomato2")+
       geom_line(data = nd, aes(y = top, x = sm), col = "sienna1")+
@@ -171,8 +174,8 @@ in_df <- bind_rows(spm_global_i, spm_global_nare) %>%
 
 ## ---- Quantile regression to individual data ---- ##
 
-qfit <- rq(MARB ~ SR + I(SR^2), data=in_df, tau=c(0.95))
-predict(qfit, newdata = data.frame(SR = c(0,0.5)))
+qfit <- rq(Coverage ~ SR + I(SR^2), data=in_df, tau=c(0.5))
+predict(qfit, newdata = data.frame(SR = c(0.1,0.4)))
 
 # Specific table
 qfit <- rq(MRRMSE ~ ALC + I(ALC^2), data=in_df, tau=c(0.5,0.80,0.95))
