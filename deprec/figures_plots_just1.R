@@ -17,14 +17,12 @@ library(quantreg)
 export = F
 
 # Date and working directory
-#cur_date <- "20230411_0710"
 cur_date <- "20230413_0810"
 wd <- "C:/r_proj/tsln_sralc_sims/"
 
 # Load data
 pr_all <- readRDS(paste0(wd, "results/", cur_date, "/pr_all.rds"))
 sim_list <- readRDS(paste0(wd, "results/", cur_date, "/sim_list.rds"))
-#pr_all_nare <- readRDS(paste0(wd, "results/20230411_0710/pr_all.rds"))
 
 # Create plot folders
 loc_plots <- paste0(wd, "results/", cur_date, "/plots")
@@ -90,17 +88,14 @@ make_numeric_decimal <- function(.data){
 options(scipen = 999)
 
 # Concordance
-concor <- data.frame(QaS = as.character(1:13),
-                     sigma_res = c(0.01, 0.1, 0.25, 0.5, 0.75, 1,
+concor <- data.frame(QaS = as.character(1:12),
+                     sigma_res = c(0.1, 0.25, 0.5, 0.75, 1,
                                    1.25, 1.5, 1.75, 2, 2.5, 3, 3.5))
 
 # SR - median across 100 reps ####
 SR_i <- bind_rows(lapply(pr_all$SR, 
                        FUN = function(x){cbind(x, rep_counter = 1:100)}), 
                 .id = "QaS") %>% mutate(areaRE = 1)
-SR_i_nare <- bind_rows(lapply(pr_all_nare$SR, 
-                         FUN = function(x){cbind(x, rep_counter = 1:100)}), 
-                  .id = "QaS") %>% mutate(areaRE = 0)
 SR <- SR_i %>% 
   group_by(QaS) %>% 
   summarise(SR = median(SR))
